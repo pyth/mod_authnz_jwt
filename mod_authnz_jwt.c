@@ -1220,13 +1220,19 @@ static int auth_jwt_authn_with_token(request_rec *r){
 				if(json_is_string(val)) {
 					const char *value = json_string_value(val);
 
-					char cookie[strlen(cookie_old) + strlen(objkey) + strlen(value) + 10];
+					size_t new_len = strlen(objkey) + strlen(value) + 10;
+					if(cookie_old) {
+						new_len += strlen(cookie_old);
+					}
+					char cookie[new_len];
 					strcpy(cookie, objkey);
 					strcat(cookie, "=");
 					strcat(cookie, value);
 					strcat(cookie, ";Path=/");
 					strcat(cookie, "; ");
-					strcat(cookie, cookie_old);
+					if(cookie_old) {
+						strcat(cookie, cookie_old);
+					}
 					apr_table_set(r->headers_in, "Cookie", cookie);
 
 					apr_table_set(r->subprocess_env, key, value);
@@ -1236,13 +1242,19 @@ static int auth_jwt_authn_with_token(request_rec *r){
 					char value[len + 1];
 					sprintf(value, "%d", num);
 
-					char cookie[strlen(cookie_old) + strlen(objkey) + strlen(value) + 10];
+					size_t new_len = strlen(objkey) + strlen(value) + 10;
+					if(cookie_old) {
+						new_len += strlen(cookie_old);
+					}
+					char cookie[new_len];
 					strcpy(cookie, objkey);
 					strcat(cookie, "=");
 					strcat(cookie, value);
 					strcat(cookie, ";Path=/");
 					strcat(cookie, "; ");
-					strcat(cookie, cookie_old);
+					if(cookie_old) {
+						strcat(cookie, cookie_old);
+					}
 					apr_table_set(r->headers_in, "Cookie", cookie);
 
 					apr_table_set(r->subprocess_env, key, value);
@@ -1252,13 +1264,19 @@ static int auth_jwt_authn_with_token(request_rec *r){
 					char value[len + 1];
 					sprintf(value, "%f", num);
 
-					char cookie[strlen(cookie_old) + strlen(objkey) + strlen(value) + 10];
+					size_t new_len = strlen(objkey) + strlen(value) + 10;
+					if(cookie_old) {
+						new_len += strlen(cookie_old);
+					}
+					char cookie[new_len];
 					strcpy(cookie, objkey);
 					strcat(cookie, "=");
 					strcat(cookie, value);
 					strcat(cookie, ";Path=/");
 					strcat(cookie, "; ");
-					strcat(cookie, cookie_old);
+					if(cookie_old) {
+						strcat(cookie, cookie_old);
+					}
 					apr_table_set(r->headers_in, "Cookie", cookie);
 
 					apr_table_set(r->subprocess_env, key, value);
